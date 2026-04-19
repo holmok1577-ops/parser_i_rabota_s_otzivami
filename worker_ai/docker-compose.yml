@@ -1,0 +1,20 @@
+services:
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: reviews-worker
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - TARGET_SITE_URL=http://reviews-web-app:8000
+    command: python worker.py
+    volumes:
+      - ./data:/service/data
+    networks:
+      - app_test_2803_default
+
+networks:
+  app_test_2803_default:
+    external: true
